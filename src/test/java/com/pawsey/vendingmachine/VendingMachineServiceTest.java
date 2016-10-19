@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import static org.assertj.core.api.Fail.fail;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class VendingMachineServiceTest {
 
@@ -30,7 +27,18 @@ public class VendingMachineServiceTest {
 
         Collection<Coin> actual = vendingMachineService.getOptimalChangeFor(100);
 
-        coinCollectionAssertions(expected, actual, 1);
+        coinCollectionAssertions(expected, actual, expected.size());
+    }
+
+    @Test
+    public void seventyPenceShouldReturnOneFiftyAndOneTwenty() {
+        ArrayList<Coin> expected = new ArrayList<>();
+        expected.add(Coin.FIFTY_PENCE);
+        expected.add(Coin.TWENTY_PENCE);
+
+        Collection<Coin> actual = vendingMachineService.getOptimalChangeFor(70);
+
+        coinCollectionAssertions(expected, actual, expected.size());
     }
 
     private void coinCollectionAssertions(ArrayList<Coin> expected, Collection<Coin> actual, int collectionSize) {
