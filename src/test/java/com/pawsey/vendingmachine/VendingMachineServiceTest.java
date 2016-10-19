@@ -35,7 +35,7 @@ public class VendingMachineServiceTest {
 
     private void coinCollectionAssertions(ArrayList<Coin> expected, Collection<Coin> actual, int collectionSize) {
         assertNotNull(actual);
-        assertTrue(actual.size() == t collectionSize);
+        assertTrue(actual.size() == collectionSize);
 
         int i = 0;
         for (Iterator actualIterator = actual.iterator(); actualIterator.hasNext();) {
