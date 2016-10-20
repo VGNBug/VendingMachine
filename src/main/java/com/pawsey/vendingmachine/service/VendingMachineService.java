@@ -34,6 +34,7 @@ public class VendingMachineService {
             pence = pence - 10;
         } else if (pence >= 5) {
             output.add(Coin.FIVE_PENCE);
+            pence = pence - 5;
         } else if (pence >= 2) {
             output.add(Coin.TWO_PENCE);
             pence = pence - 2;

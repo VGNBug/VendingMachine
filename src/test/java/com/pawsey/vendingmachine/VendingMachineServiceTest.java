@@ -41,6 +41,21 @@ public class VendingMachineServiceTest {
         coinCollectionAssertions(expected, actual, expected.size());
     }
 
+    @Test
+    public void ninetyNicePenceShouldReturnOneFiftyTwoTwentiesOneFiveAndTwoTwos() {
+        ArrayList<Coin> expected = new ArrayList<>();
+        expected.add(Coin.FIFTY_PENCE);
+        expected.add(Coin.TWENTY_PENCE);
+        expected.add(Coin.TWENTY_PENCE);
+        expected.add(Coin.FIVE_PENCE);
+        expected.add(Coin.TWO_PENCE);
+        expected.add(Coin.TWO_PENCE);
+
+        Collection<Coin> actual = vendingMachineService.getOptimalChangeFor(99);
+
+        coinCollectionAssertions(expected, actual, expected.size());
+    }
+
     private void coinCollectionAssertions(ArrayList<Coin> expected, Collection<Coin> actual, int collectionSize) {
         assertNotNull(actual);
         assertTrue(actual.size() == collectionSize);
