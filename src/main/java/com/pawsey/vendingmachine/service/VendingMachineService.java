@@ -18,6 +18,10 @@ public class VendingMachineService {
         return output;
     }
 
+    public Collection<Coin> getChangeFor(int pence) {
+        return null;
+    }
+
     private int updatePenceAndCoins(int pence, Collection<Coin> output) {
         if (pence >= 100) {
             output.add(Coin.ONE_POUND);
