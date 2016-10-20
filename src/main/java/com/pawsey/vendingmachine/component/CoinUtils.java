@@ -6,6 +6,7 @@ public class CoinUtils {
 
     public static Coin convertPenceToCoin(int pence) {
 
+        Coin coin;
         switch (pence) {
             case 100:
                 return Coin.ONE_POUND;
@@ -22,7 +23,7 @@ public class CoinUtils {
             case 1:
                 return Coin.ONE_PENNY;
             default:
-                throw new IllegalArgumentException("Unknown coin denomination");
+                return null;
         }
     }
 

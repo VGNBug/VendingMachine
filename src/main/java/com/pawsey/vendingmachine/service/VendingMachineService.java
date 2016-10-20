@@ -1,6 +1,5 @@
 package com.pawsey.vendingmachine.service;
 
-import com.pawsey.vendingmachine.component.CoinCounterSingleton;
 import com.pawsey.vendingmachine.component.CoinUtils;
 import com.pawsey.vendingmachine.model.Coin;
 import org.springframework.stereotype.Service;
@@ -11,11 +10,9 @@ import java.util.Collection;
 @Service
 public class VendingMachineService {
 
-    private CoinCounterSingleton coinCounter;
     private CoinUtils coinUtils;
 
     public VendingMachineService() {
-        coinCounter = CoinCounterSingleton.getInstance();
         coinUtils = new CoinUtils();
     }
 
@@ -24,8 +21,9 @@ public class VendingMachineService {
         Collection<Coin> output = new ArrayList<>();
 
         while (pence > 0) {
-            pence = updatePenceAndCoins(pence, output);
-            output.add(coinUtils.convertPenceToCoin(pence));
+            int updatedPence = updatePence(pence, output);
+            output.add(coinUtils.convertPenceToCoin(pence - updatedPence));
+            pence = updatedPence;
         }
 
         return output;
@@ -35,7 +33,7 @@ public class VendingMachineService {
         return null;
     }
 
-    private int updatePenceAndCoins(int pence, Collection<Coin> output) {
+    private int updatePence(int pence, Collection<Coin> output) {
         if (pence >= 100) {
             pence = pence - 100;
         } else if (pence >= 50) {
@@ -51,7 +49,6 @@ public class VendingMachineService {
         } else if (pence >= 1) {
             pence = pence - 1;
         }
-        output.add(coinUtils.convertPenceToCoin(pence));
         return pence;
     }
 

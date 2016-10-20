@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class CoinCounterSingleton {
 
-    private CoinCounterSingleton instance;
+    private static CoinCounterSingleton instance = null;
     private CoinInventoryProcessor coinInventoryProcessor;
     private List<Coin> coins;
 
