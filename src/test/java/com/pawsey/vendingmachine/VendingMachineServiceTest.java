@@ -56,12 +56,18 @@ public class VendingMachineServiceTest {
         coinCollectionAssertions(expected, actual, expected.size());
     }
 
+    @Test
+    public void testGetChangeFor100() {
+
+        vendingMachineService.getChangeFor(100);
+    }
+
     private void coinCollectionAssertions(ArrayList<Coin> expected, Collection<Coin> actual, int collectionSize) {
         assertNotNull(actual);
         assertTrue(actual.size() == collectionSize);
 
         int i = 0;
-        for (Iterator actualIterator = actual.iterator(); actualIterator.hasNext();) {
+        for (Iterator actualIterator = actual.iterator(); actualIterator.hasNext(); ) {
             Coin actualCoin = (Coin) actualIterator.next();
             assertEquals(expected.get(i), actualCoin);
             i++;
