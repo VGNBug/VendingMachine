@@ -11,8 +11,7 @@ public class VendingMachineService {
 
         Collection<Coin> output = new ArrayList<>();
 
-        // TODO make this occur in a loop, and extract it
-        while( pence > 0) {
+        while (pence > 0) {
             pence = updatePenceAndCoins(pence, output);
         }
 
@@ -44,4 +43,5 @@ public class VendingMachineService {
         }
         return pence;
     }
+
 }
