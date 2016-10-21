@@ -3,6 +3,7 @@ package com.pawsey.vendingmachine.component;
 import com.pawsey.vendingmachine.model.Coin;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,9 +11,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CoinInventoryProcessor {
+@Component
+public class CoinInventoryProcessor extends BaseComponent {
 
-    private final Log LOG = LogFactory.getLog(this.getClass());
     private CoinUtils coinUtils;
     private String coinInventoryPath = "src/main/resources/coin-inventory.properties";
 

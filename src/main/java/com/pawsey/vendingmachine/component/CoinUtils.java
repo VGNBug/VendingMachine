@@ -2,6 +2,10 @@ package com.pawsey.vendingmachine.component;
 
 import com.pawsey.vendingmachine.model.Coin;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class CoinUtils {
 
     public static Coin convertPenceToCoin(int pence) {
@@ -44,6 +48,21 @@ public class CoinUtils {
             pence = pence - 1;
         }
         return pence;
+    }
+
+    public Map<String, Integer> getCoinInventoryMap(List<Coin> coinList) {
+        Map<String, Integer> coinMap = new HashMap<>();
+
+        int coinCount = 1;
+        for (Coin coin : coinList) {
+            if (coinMap.get(coin.name()) != null) {
+                coinCount = coinMap.get(coin.name()) + 1;
+                coinMap.remove(coin.name());
+            }
+            coinMap.put(coin.name(), coinCount);
+            coinCount = 1;
+        }
+        return coinMap;
     }
 
 }

@@ -4,9 +4,12 @@ import com.pawsey.vendingmachine.model.Coin;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
-public class CoinUtilsTest {
+public class CoinUtilsTest extends BaseComponentTest {
 
     private CoinUtils coinUtils;
 
@@ -123,6 +126,19 @@ public class CoinUtilsTest {
     @Test
     public void testUpdatePenceSubtract1ShouldLeave0Pence() {
         assertEquals(0, coinUtils.updatePence(1));
+    }
+
+    @Test
+    public void testGetCoinInventoryMap() {
+        Map<String, Integer> coinMap = coinUtils.getCoinInventoryMap(setupExpectedCoinList());
+
+        assertNotNull(coinMap);
+        assertEquals(new Integer(11), coinMap.get("ONE_POUND"));
+        assertEquals(new Integer(24), coinMap.get("FIFTY_PENCE"));
+        assertEquals(new Integer(99), coinMap.get("TEN_PENCE"));
+        assertEquals(new Integer(200), coinMap.get("FIVE_PENCE"));
+        assertEquals(new Integer(11), coinMap.get("TWO_PENCE"));
+        assertEquals(new Integer(23), coinMap.get("ONE_PENNY"));
     }
 
     private void testShouldReturnCoin(int pence, Coin fiftyPence) {
