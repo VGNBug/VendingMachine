@@ -27,4 +27,23 @@ public class CoinUtils {
         }
     }
 
+    public int updatePence(int pence) {
+        if (pence >= 100) {
+            pence = pence - 100;
+        } else if (pence >= 50) {
+            pence = pence - 50;
+        } else if (pence >= 20) {
+            pence = pence - 20;
+        } else if (pence >= 10) {
+            pence = pence - 10;
+        } else if (pence >= 5) {
+            pence = pence - 5;
+        } else if (pence >= 2) {
+            pence = pence - 2;
+        } else if (pence >= 1) {
+            pence = pence - 1;
+        }
+        return pence;
+    }
+
 }

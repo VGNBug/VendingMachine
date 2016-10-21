@@ -1,4 +1,4 @@
-package com.pawsey.vendingmachine;
+package com.pawsey.vendingmachine.service;
 
 import com.pawsey.vendingmachine.model.Coin;
 import com.pawsey.vendingmachine.service.VendingMachineService;
@@ -58,8 +58,8 @@ public class VendingMachineServiceTest {
 
     @Test
     public void testGetChangeFor100() {
-
         vendingMachineService.getChangeFor(100);
+        fail("Not yet implemented");
     }
 
     private void coinCollectionAssertions(ArrayList<Coin> expected, Collection<Coin> actual, int collectionSize) {
