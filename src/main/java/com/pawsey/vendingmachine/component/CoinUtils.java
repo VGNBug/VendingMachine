@@ -3,6 +3,7 @@ package com.pawsey.vendingmachine.component;
 import com.pawsey.vendingmachine.model.Coin;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,10 @@ public class CoinUtils {
         return pence;
     }
 
+    public int updatePenceWithCoin(Coin coin, int pence) {
+        return pence - coin.getValue();
+    }
+
     public Map<String, Integer> getCoinInventoryMap(List<Coin> coinList) {
         Map<String, Integer> coinMap = new HashMap<>();
 
@@ -62,7 +67,23 @@ public class CoinUtils {
             coinMap.put(coin.name(), coinCount);
             coinCount = 1;
         }
-        return coinMap;
+        return sortCoinInventoryMap(coinMap);
+    }
+
+    private Map<String, Integer> sortCoinInventoryMap(Map<String, Integer> unsortedCoinMap) {
+        Map<String, Integer> sortedCoinMap = new HashMap<>();
+        Iterator iterator = unsortedCoinMap.entrySet().iterator();
+        int maxValue = 0;
+
+        while (iterator.hasNext()) {
+            Map.Entry pair = (Map.Entry) iterator.next();
+            if(Coin.valueOf(pair.getKey().toString()).getValue() > maxValue) {
+                maxValue = Coin.valueOf(pair.getKey().toString()).getValue();
+                sortedCoinMap.put(pair.getKey().toString(), (Integer) pair.getValue());
+            }
+        }
+
+        return sortedCoinMap;
     }
 
 }

@@ -50,7 +50,7 @@ public class CoinInventoryProcessor extends BaseComponent {
     }
 
     private void addCoinsToList(List<Coin> coins, int valueOfCoin, int numberOfCoins) {
-        LOG.info("Adding " + numberOfCoins + " of " + valueOfCoin + " to collection");
+        LOG.debug("Adding " + numberOfCoins + " of " + valueOfCoin + " to collection");
         for (int j = 0; j <= numberOfCoins - 1; j++) {
             coins.add(coinUtils.convertPenceToCoin(valueOfCoin));
         }

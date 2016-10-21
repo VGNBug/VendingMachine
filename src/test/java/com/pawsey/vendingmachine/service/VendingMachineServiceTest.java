@@ -1,7 +1,6 @@
 package com.pawsey.vendingmachine.service;
 
 import com.pawsey.vendingmachine.model.Coin;
-import com.pawsey.vendingmachine.service.VendingMachineService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +26,7 @@ public class VendingMachineServiceTest {
 
         Collection<Coin> actual = vendingMachineService.getOptimalChangeFor(100);
 
-        coinCollectionAssertions(expected, actual, expected.size());
+        coinCollectionSuccessAssertions(expected, actual, expected.size());
     }
 
     @Test
@@ -38,7 +37,7 @@ public class VendingMachineServiceTest {
 
         Collection<Coin> actual = vendingMachineService.getOptimalChangeFor(70);
 
-        coinCollectionAssertions(expected, actual, expected.size());
+        coinCollectionSuccessAssertions(expected, actual, expected.size());
     }
 
     @Test
@@ -53,16 +52,45 @@ public class VendingMachineServiceTest {
 
         Collection<Coin> actual = vendingMachineService.getOptimalChangeFor(99);
 
-        coinCollectionAssertions(expected, actual, expected.size());
+        coinCollectionSuccessAssertions(expected, actual, expected.size());
     }
 
     @Test
-    public void testGetChangeFor100() {
-        vendingMachineService.getChangeFor(100);
-        fail("Not yet implemented");
+    public void testGetChangeFor100ShouldReturnOneOnePound() {
+        ArrayList<Coin> expected = new ArrayList<>();
+        expected.add(Coin.ONE_POUND);
+
+        coinCollectionSuccessAssertions(expected, vendingMachineService.getChangeFor(100), expected.size());
     }
 
-    private void coinCollectionAssertions(ArrayList<Coin> expected, Collection<Coin> actual, int collectionSize) {
+    @Test
+    public void testGetChangeFor100ShouldNotReturnTwoFiftyPennies() {
+        ArrayList<Coin> expected = new ArrayList<>();
+        expected.add(Coin.FIFTY_PENCE);
+        expected.add(Coin.FIFTY_PENCE);
+
+        coinCollectionFailureAssertions(expected, vendingMachineService.getChangeFor(100), expected.size());
+    }
+
+    @Test
+    public void testGetChangeFor20ShouldNotReturnOneTwentyPenny() {
+        ArrayList<Coin> expected = new ArrayList<>();
+        expected.add(Coin.TWENTY_PENCE);
+
+        coinCollectionFailureAssertions(expected, vendingMachineService.getChangeFor(20), expected.size());
+    }
+
+    @Test
+    public void testGetChangeFor20ShouldReturnTwoTenPennies() {
+        ArrayList<Coin> expected = new ArrayList<>();
+        expected.add(Coin.TEN_PENCE);
+        expected.add(Coin.TEN_PENCE);
+
+        coinCollectionSuccessAssertions(expected, vendingMachineService.getChangeFor(20), expected.size());
+
+    }
+
+    private void coinCollectionSuccessAssertions(ArrayList<Coin> expected, Collection<Coin> actual, int collectionSize) {
         assertNotNull(actual);
         assertTrue(actual.size() == collectionSize);
 
@@ -72,6 +100,12 @@ public class VendingMachineServiceTest {
             assertEquals(expected.get(i), actualCoin);
             i++;
         }
+    }
+
+    private void coinCollectionFailureAssertions(ArrayList<Coin> expected, Collection<Coin> actual, int collectionSize) {
+        assertNotNull(actual);
+        assertFalse(actual.size() == collectionSize);
+        assertNotEquals(expected, actual);
     }
 
 }

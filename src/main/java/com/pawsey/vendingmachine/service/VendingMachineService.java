@@ -6,9 +6,8 @@ import com.pawsey.vendingmachine.model.Coin;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.zip.DataFormatException;
 
 @Service
 public class VendingMachineService extends BaseService {
@@ -33,15 +32,48 @@ public class VendingMachineService extends BaseService {
     }
 
     public Collection<Coin> getChangeFor(int pence) {
-        //TODO get optimal change
-        Collection<Coin> optimalCoins = getOptimalCoins(pence);
-        //TODO check if optimal change is available for each coin type
-        for(Coin coin : optimalCoins) {
-//            if(coin)
+        Collection<Coin> output = new ArrayList<>();
+
+        try {
+            output = getChangeFromLimitedCoinPool(pence);
+        } catch (IOException e) {
+            LOG.error("There was a problem reading a data file required for this function.");
+        } catch (DataFormatException e) {
+            LOG.error("A file required for this function is incorrectly formatted.");
         }
-            // TODO if not, calculate how to make the denomination with a smaller coin-type
-            // TODO check if these coin types are available
-        return null;
+        return output;
+    }
+
+    private Collection<Coin> getChangeFromLimitedCoinPool(int pence) throws IOException, DataFormatException {
+        Collection<Coin> output = new ArrayList<>();
+
+        for (Coin coin : getOptimalCoins(pence)) {
+            output = addOptimalCoinIfAvailableOrRecalculate(output, coin);
+        }
+        return output;
+    }
+
+    private Collection<Coin> addOptimalCoinIfAvailableOrRecalculate(Collection<Coin> output, Coin coin) throws IOException, DataFormatException {
+        final Map<String, Integer> coinInventoryMap = coinUtils.getCoinInventoryMap(coinInventoryProcessor.getInventory());
+
+        if (coinInventoryMap.get(coin.name()) > 0) {
+            output.add(coin);
+        } else {
+            Iterator iterator = coinInventoryMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry pair = (Map.Entry) iterator.next();
+                final Object key = pair.getKey();
+
+                if (!key.equals(coin.name())) {
+                    addOptimalCoinIfAvailableOrRecalculate(output, Coin.valueOf(key.toString()));
+                } else
+                    throw new DataFormatException("CoinUtils.getInventoryMap() has returned a duplicate coin type. Please check data file.");
+
+                iterator.remove();
+            }
+
+        }
+        return output;
     }
 
     private List<Coin> getOptimalCoins(int pence) {
